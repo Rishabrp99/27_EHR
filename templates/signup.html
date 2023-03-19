@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up</title>
+    <style>
+        .divider:after,
+        .divider:before {
+            content: "";
+            flex: 1;
+            height: 1px;
+            background: #eee;
+        }
+    </style>
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet" />
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" rel="stylesheet" />
+    <!-- MDB -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.1.0/mdb.min.css" rel="stylesheet" />
+</head>
+
+<body>
+    <section class="vh-100">
+        <div class="container py-5 h-100">
+            <div class="row d-flex align-items-center justify-content-center h-100">
+                <div class="col-md-8 col-lg-7 col-xl-6">
+                    <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-login-form/draw2.svg"
+                        class="img-fluid" alt="Phone image">
+                </div>
+                <div class="col-md-7 col-lg-5 col-xl-5 offset-xl-1 bg-white">
+                    <form id="signup-form">
+                        <!-- Email input -->
+                        <div class="form-outline mb-4">
+                            <label class="form-label" for="form1Example13">Name</label>
+                            <input type="text" id="name" class="form-control form-control-lg border" name="name" />
+                        </div>
+                        <!-- Email input -->
+                        <div class="form-outline mb-4">
+                            <label class="form-label" for="form1Example13">Email address</label>
+                            <input type="email" id="email" class="form-control form-control-lg border" name="email" />
+                        </div>
+
+                        <!-- Password input -->
+                        <div class="form-outline mb-4">
+                            <label class="form-label" for="form1Example23">Password</label>
+                            <input type="password" id="password" class="form-control form-control-lg border"
+                                name="password" />
+                        </div>
+
+                        <!-- C Password input -->
+                        <div class="form-outline mb-4">
+                            <label class="form-label" for="form1Example23">Confirm Password</label>
+                            <input type="password" id="passwordConfirm" class="form-control form-control-lg border"
+                                name="passwordConfirm" />
+                        </div>
+                        <label for="role1">Are you?</label>
+                        <div class="form-check ms-3">
+                            <input class="form-check-input" type="radio" name="role" id="role1" value="patient" checked>
+                            <label class="form-check-label" for="flexRadioDefault1">
+                                Patient
+                            </label>
+                        </div>
+                        <div class="form-check ms-3 mb-3">
+                            <input class="form-check-input" type="radio" name="role" id="role2" value="doctor">
+                            <label class="form-check-label" for="flexRadioDefault2">
+                                Doctor
+                            </label>
+                        </div>
+
+
+                        <!-- Submit button -->
+                        <button class="btn btn-primary btn-lg btn-block" id="signup-btn">Sign Up</button>
+
+                        <div class="d-flex justify-content-center align-items-center my-4">
+                            <a href="/login">Already Have an Account?</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+    <script>
+        const signupBtn = document.getElementById("signup-btn");
+
+        signupBtn.addEventListener("click", async(e) => {
+            e.preventDefault();
+            name = document.getElementById("name").value;
+            email = document.getElementById("email").value;
+            password = document.getElementById("password").value;
+            passwordConfirm = document.getElementById("passwordConfirm").value;
+            role = document.querySelector('input[name="role"]:checked').value;
+
+            var formData = new FormData();
+
+            formData.append("name", name);
+            formData.append("email", email);
+            formData.append("password", password);
+            formData.append("passwordConfirm", passwordConfirm);
+            formData.append("role", role);
+
+            let data = {
+                name: name,
+                email: email,
+                password: password,
+                passwordConfirm: passwordConfirm,
+                role:role
+            }
+
+            const res = await fetch("/api/auth/register", {
+                method: 'POST', // *GET, POST, PUT, DELETE, etc.
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data) // body data type must match "Content-Type" header
+            }); // parses JSON response into native JavaScript objects
+
+            let response = await res.json();
+            console.log(response)
+            if (response.status === "success"){
+                window.location.href="/login"
+            }
+        })
+    </script>
+</body>
+
+</html>

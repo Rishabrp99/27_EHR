@@ -1,0 +1,196 @@
+{% extends "base.html" %}
+{% block content %}
+<div class = "row">
+    <div class = "row sub-header m-3">
+
+        <div class="col-md-6 col-12" id="profile_picture">
+
+            <div class = "row">
+                <img src="/api/qrcode/generate/{{request.cookies.get('user_id')}}" class="rounded float-start" alt="..." style="height: 200px;width: 200px;">
+               
+            </div>
+            
+            <div class="row">
+
+                <div class = "col">
+
+                    
+                 <button class="btn" style="display:inline" onclick="myFunction()"><i class="fa fa-clipboard" aria-hidden="true" ></i></button>
+                 <code id="link-area"style="display:inline">http://localhost:8000/usershare/{{request.cookies.get('user_id')}}</code>
+
+                </div>
+
+                
+
+            </div>
+
+                
+        </div>
+        <script>
+            function myFunction() {
+                // Get the text field
+                var copyText = document.getElementById("link-area").innerText;
+
+                // Select the text field
+                // copyText.select();
+                // copyText.setSelectionRange(0, 99999); // For mobile devices
+
+                // Copy the text inside the text field
+                navigator.clipboard.writeText(copyText);
+
+                // Alert the copied text
+                alert("Copied the text: " + copyText);
+                }
+        </script>
+        <div class="col-md-6 col-12" id="age_name_role">
+
+            <h1> User Name</h1>
+            <p> Role of user</p>
+
+        </div>
+
+        
+    </div>
+
+    <hr>
+
+    <div class = "row sub-content m-3">
+        <div class = "col-md-6 col-12" id="profile-content-left">
+
+            <table class="table">
+                <tbody>
+
+                    <tr>
+                        <td>
+                            Name : 
+                        </td>
+                        <td>
+                            Harshit Daga
+                        </td>
+                    </tr>
+        
+                    <tr>
+                        <td>
+                            Phone : 
+                        </td>
+                        <td>
+                            8955208658
+                        </td>
+                    </tr>
+        
+                    <tr>
+                        <td>
+                            Email : 
+                        </td>
+                        <td>
+                            test@gmail.com
+                        </td>
+                    </tr>
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+        <div class = "col-md-6 col-12" id="profile-content-right">
+
+            <table class="table">
+
+
+                <tbody>
+
+                    <tr>
+                        <td>
+                            Emergency Contact : 
+                        </td>
+                        <td>
+                            8955208658
+                        </td>
+                    </tr>
+        
+                    
+                    <tr>
+                        <td>
+                            Gender : 
+                        </td>
+                        <td>
+                            Male
+                        </td>
+                    </tr>
+        
+                    
+                    <tr>
+                        <td>
+                            Role : 
+                        </td>
+                        <td>
+                            Patient
+                        </td>
+                    </tr>
+    
+                </tbody>
+    
+            </table>
+   
+
+
+            
+
+        </div>
+    </div>
+
+   
+</div>
+<script>
+
+    const url = "http://localhost:8000/me";
+
+    fetch(url)
+    .then(res => res.json())
+    .then(data =>(console.log(data)))
+
+    
+
+    
+    
+    
+    function copyToClipboard(elem) {
+    var target = elem;
+
+    // select the content
+    var currentFocus = document.activeElement;
+
+    target.focus();
+    target.setSelectionRange(0, target.value.length);
+
+    // copy the selection
+    var succeed;
+
+    try {
+      succeed = document.execCommand("copy");
+    } catch (e) {
+      console.warn(e);
+
+      succeed = false;
+    }
+
+    // Restore original focus
+    if (currentFocus && typeof currentFocus.focus === "function") {
+      currentFocus.focus();
+    }
+
+    if (succeed) {
+      $(".copied").animate({ top: -25, opacity: 0 }, 700, function() {
+        $(this).css({ top: 0, opacity: 1 });
+      });
+    }
+
+    return succeed;
+  }
+
+  $("#copyButton, #copyTarget").on("click", function() {
+    copyToClipboard(document.getElementById("copyTarget"));
+  });
+</script>
+{% endblock content %}
